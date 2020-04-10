@@ -25,4 +25,5 @@ protosetup:
   - rpc-users.proto
 isgateway: false
 deps: []
-cons: []
+cons:
+  - benka-me/laruche-hive
