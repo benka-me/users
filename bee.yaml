@@ -1,0 +1,28 @@
+name: users
+pkgname: users
+pkgnamecamel: Users
+repo: github.com/benka-me/users
+author: benka-me
+port: 8022
+public: false
+license: ""
+description: ""
+keywords: ""
+tag: ""
+devlang: 0
+languages:
+  go:
+    setup:
+      active: true
+      protocbinary: gogoslick
+  javascript:
+    setup:
+      active: true
+      protocbinary: ""
+protosetup:
+  files:
+  - users.proto
+  - rpc-users.proto
+isgateway: false
+deps: []
+cons: []

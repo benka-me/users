@@ -1,0 +1,12 @@
+syntax = "proto3";
+package users;
+option go_package = "github.com/benka-me/users/go-pkg/users";
+
+message Request {
+    string Msg = 1;
+}
+
+message Greeting {
+    string Msg = 1;
+}
+

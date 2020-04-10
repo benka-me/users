@@ -1,0 +1,9 @@
+syntax = "proto3";
+package users;
+
+option go_package = "github.com/benka-me/users/go-pkg/users";
+import "users.proto";
+
+service Users {
+    rpc HelloWorld (users.Request) returns (users.Greeting);
+}
