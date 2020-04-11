@@ -1,16 +1,19 @@
 version: '3.1'
 
 services:
-
   db:
     image: postgres
+    container_name: postgres
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 60210:5432
 
   adminer:
+    container_name: postgresadmin
     image: adminer
     restart: always
     ports:
-      - 7021:8080
+      - 6021:8080
