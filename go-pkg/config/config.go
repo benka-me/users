@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"github.com/benka-me/laruche/go-pkg/config"
 	"github.com/joho/godotenv"
 	"os"
 )
@@ -19,7 +20,8 @@ type Config struct {
 }
 
 func Init(dev bool) *Config {
-	err := godotenv.Load()
+	envPath := config.SourcePath + "/github.com/benka-me/users/.env"
+	err := godotenv.Load(envPath)
 	if err != nil {
 		panic(err)
 	}
