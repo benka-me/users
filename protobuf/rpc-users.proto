@@ -5,5 +5,9 @@ option go_package = "github.com/benka-me/users/go-pkg/users";
 import "users.proto";
 
 service Users {
-    rpc HelloWorld (users.Request) returns (users.Greeting);
+    rpc Register (users.RegisterReq) returns (users.RegisterRes);
+    rpc Login (users.LoginReq) returns (users.LoginRes);
+    rpc Get (users.GetReq) returns (users.Data);
+    rpc GetAll (users.Empty) returns (users.All);
+    rpc Auth (users.Token) returns (users.IsAuth);
 }

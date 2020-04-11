@@ -2,11 +2,59 @@ syntax = "proto3";
 package users;
 option go_package = "github.com/benka-me/users/go-pkg/users";
 
-message Request {
-    string Msg = 1;
+message Empty {
 }
 
-message Greeting {
-    string Msg = 1;
+enum Access {
+    None = 0;
+    Basic = 1;
+};
+
+message All {
+    repeated Data Users = 1;
 }
 
+message Data {
+    string Id = 1;
+    string Username = 2;
+    string Firstname = 3;
+    string Lastname = 4;
+    int32 Age = 5;
+    string Email = 7;
+    Access Access = 8;
+}
+
+message IsAuth {
+    bool Val = 1;
+}
+
+message LoginReq {
+    string Identifier = 1;
+    string Password = 2;
+}
+
+message LoginRes {
+    Data data = 1;
+    string Auth = 2;
+}
+
+message GetReq {
+    oneof OneOf {
+        string Id = 1;
+        string Name = 2;
+        string Email = 3;
+    }
+}
+
+message RegisterReq {
+    string Username = 1;
+    string Email = 2;
+    string Password = 3;
+}
+
+message RegisterRes {
+}
+
+message Token {
+    string Val = 1;
+}
