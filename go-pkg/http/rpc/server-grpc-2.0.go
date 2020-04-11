@@ -3,17 +3,23 @@ package rpc
 //this is your entry point server, it will not be generated again.
 import (
 	"fmt"
-	users "github.com/benka-me/users/go-pkg/users"
+	"github.com/benka-me/laruche/go-pkg/discover"
+	"github.com/benka-me/users/go-pkg/config"
+	"github.com/benka-me/users/go-pkg/db"
+	"github.com/benka-me/users/go-pkg/users"
+	"github.com/jinzhu/gorm"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"github.com/benka-me/laruche/go-pkg/discover"
 	"log"
 	"net"
 )
 
 // This structure will be passed to your handlers. Add everything you need inside.
 type App struct {
-    Clients
+	Clients
+	Engine *discover.Engine
+	Config *config.Config
+	DB     *gorm.DB
 }
 
 // your server port, don't change it unless you update the service on the hub.
@@ -22,13 +28,16 @@ var grpcServer *grpc.Server
 
 func Server_2_0(engine discover.Engine) {
 	var err error
-    port, err := engine.ThisPort("benka-me/users")
+	port, err := engine.ThisPort("benka-me/users")
 	if err != nil {
-	    log.Fatal(err)
+		log.Fatal(err)
 	}
 	app := &App{
-	    Clients : InitClients(engine, grpc.WithInsecure()), // Init clients of dependencies services
+		Clients: InitClients(engine, grpc.WithInsecure()), // Init clients of dependencies services
+		Engine:  &engine,
+		Config:  config.Init(engine.Dev),
 	}
+	app.DB = db.Init(app.Config, engine.Dev)
 
 	grpcServer = grpc.NewServer()
 	lis, err := net.Listen("tcp", port)

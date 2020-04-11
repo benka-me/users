@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - 60210:5432
+      - ${POSTGRES_PORT}:5432
 
   adminer:
     container_name: postgresadmin
