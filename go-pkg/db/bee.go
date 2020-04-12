@@ -25,8 +25,8 @@ type Bee struct {
 	DevLang      int        `gorm:""`
 	Languages    int        `gorm:""`
 	IsGateway    bool       `gorm:""`
-	Deps         []*Bee     `gorm:"foreign_key:Bee"`
-	Cons         []*Bee     `gorm:"foreign_key:Bee"`
+	Deps         []*Bee     `gorm:"foreign_key:bees"`
+	Cons         []*Bee     `gorm:"foreign_key:bees"`
 }
 
 func BeeFrom(from *laruche.Bee) *Bee {
@@ -49,7 +49,15 @@ func BeeFrom(from *laruche.Bee) *Bee {
 		DevLang:      int(from.DevLang),
 		Languages:    0,
 		IsGateway:    from.IsGateway,
-		//Deps:         from.Deps,
-		//Cons:        	from.Cons,
+		Deps:         format(from.Deps),
+		Cons:         format(from.Cons),
 	}
+}
+
+func format(deps []string) []*Bee {
+	ret := make([]*Bee, len(deps))
+	for i, d := range deps {
+		ret[i] = &Bee{ID: d}
+	}
+	return ret
 }
