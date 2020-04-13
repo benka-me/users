@@ -236,6 +236,7 @@ if (goog.DEBUG && !COMPILED) {
 }
 
 
+
 if (jspb.Message.GENERATE_TO_OBJECT) {
     /**
      * Creates an object representation of this proto.
@@ -332,12 +333,14 @@ proto.users.Empty.serializeBinaryToWriter = function (message, writer) {
 };
 
 
+
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
 proto.users.All.repeatedFields_ = [1];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -1265,6 +1268,7 @@ proto.users.LoginRes.prototype.setAuth = function (value) {
 };
 
 
+
 /**
  * Oneof group definitions for this message. Each group defines the field
  * numbers belonging to that group. When of these fields' value is set, all
@@ -1291,6 +1295,7 @@ proto.users.GetReq.OneofCase = {
 proto.users.GetReq.prototype.getOneofCase = function () {
     return /** @type {proto.users.GetReq.OneofCase} */(jspb.Message.computeOneofCase(this, proto.users.GetReq.oneofGroups_[0]));
 };
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {

@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"github.com/benka-me/laruche/go-pkg/discover"
 	"github.com/benka-me/users/go-pkg/config"
-	"github.com/benka-me/users/go-pkg/db"
 	"github.com/benka-me/users/go-pkg/users"
-	"github.com/jinzhu/gorm"
+	"go.mongodb.org/mongo-driver/mongo"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
@@ -17,9 +16,11 @@ import (
 // This structure will be passed to your handlers. Add everything you need inside.
 type App struct {
 	Clients
-	Engine *discover.Engine
-	Config *config.Config
-	DB     *gorm.DB
+	Engine       *discover.Engine
+	Config       *config.Config
+	RegisterChan chan *users.RegisterReq
+	MongoUsers   *mongo.Collection
+	MongoClient  *mongo.Client
 }
 
 // your server port, don't change it unless you update the service on the hub.
@@ -37,7 +38,6 @@ func Server_2_0(engine discover.Engine) {
 		Engine:  &engine,
 		Config:  config.Init(engine.Dev),
 	}
-	app.DB = db.Init(app.Config, engine.Dev)
 
 	grpcServer = grpc.NewServer()
 	lis, err := net.Listen("tcp", port)
