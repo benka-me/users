@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-type Dep string
 type Bee struct {
 	ID           string `gorm:"primary_key"`
 	CreatedAt    time.Time
@@ -25,8 +24,8 @@ type Bee struct {
 	DevLang      int        `gorm:""`
 	Languages    int        `gorm:""`
 	IsGateway    bool       `gorm:""`
-	Deps         []*Bee     `gorm:"foreign_key:bees"`
-	Cons         []*Bee     `gorm:"foreign_key:bees"`
+	Deps         []*Bee     `gorm:"many2many:dependencies;association_jointable_foreignkey:dep_id"`
+	//Cons         []*Bee     `gorm:"many2many:bee_bee;"`
 }
 
 func BeeFrom(from *laruche.Bee) *Bee {
@@ -49,8 +48,8 @@ func BeeFrom(from *laruche.Bee) *Bee {
 		DevLang:      int(from.DevLang),
 		Languages:    0,
 		IsGateway:    from.IsGateway,
-		Deps:         format(from.Deps),
-		Cons:         format(from.Cons),
+		//Deps:         format(from.Deps),
+		//Cons:         format(from.Cons),
 	}
 }
 

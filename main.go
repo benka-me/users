@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/benka-me/laruche/go-pkg/discover"
-	"github.com/urfave/cli"
-	"github.com/benka-me/users/go-pkg/http/rpc"
-	"os"
 	"fmt"
+	"github.com/benka-me/laruche/go-pkg/discover"
+	"github.com/benka-me/users/go-pkg/http/rpc"
+	"github.com/urfave/cli"
 	"log"
+	"os"
 )
 
 func main() {
@@ -16,13 +16,13 @@ func main() {
 			Name: "dev",
 			Action: func(context *cli.Context) error {
 				if len(os.Args) < 3 {
-			        fmt.Println("usage: exec author/service-name")
-			        os.Exit(0)
+					fmt.Println("usage: exec author/service-name")
+					os.Exit(0)
 				}
 				engine, err := discover.ParseEngine(os.Args[2], true)
-		        if err != nil {
-			        log.Fatal(err)
-		        }
+				if err != nil {
+					log.Fatal(err)
+				}
 				rpc.Server_2_0(*engine)
 				return nil
 			},
