@@ -52,9 +52,9 @@ func (app *App) available(ctx context.Context, req *users.RegisterReq) bool {
 }
 
 func (app *App) Register(ctx context.Context, req *users.RegisterReq) (*users.RegisterRes, error) {
-	//if !app.available(ctx, req) {
-	//	return &users.RegisterRes{}, status.Error(codes.AlreadyExists, "username already exist")
-	//}
+	if !app.available(ctx, req) {
+		return &users.RegisterRes{}, status.Error(codes.AlreadyExists, "username already exist")
+	}
 	//TODO validate pwd / email / username
 
 	//TODO add event register request
