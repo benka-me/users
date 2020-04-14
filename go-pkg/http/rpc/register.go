@@ -14,6 +14,7 @@ func (app *App) insertRegisterProcess() {
 	for {
 		r := <-app.RegisterChan
 
+		fmt.Println("Register process revceived :", r.Username)
 		pwd, _ := hash.HashPassword(r.Password)
 		entry := users.User{
 			Data: users.Data{
@@ -24,7 +25,12 @@ func (app *App) insertRegisterProcess() {
 		}
 
 		if app.available(context.TODO(), r) {
-			_, _ = app.MongoUsers.InsertOne(context.TODO(), entry)
+			inserted, err := app.MongoUsers.InsertOne(context.TODO(), entry)
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				fmt.Println("inserted: ", inserted.InsertedID)
+			}
 
 			//TODO: Send email validation
 		} else {
@@ -46,9 +52,9 @@ func (app *App) available(ctx context.Context, req *users.RegisterReq) bool {
 }
 
 func (app *App) Register(ctx context.Context, req *users.RegisterReq) (*users.RegisterRes, error) {
-	if !app.available(ctx, req) {
-		return &users.RegisterRes{}, status.Error(codes.AlreadyExists, "username already exist")
-	}
+	//if !app.available(ctx, req) {
+	//	return &users.RegisterRes{}, status.Error(codes.AlreadyExists, "username already exist")
+	//}
 	//TODO validate pwd / email / username
 
 	//TODO add event register request

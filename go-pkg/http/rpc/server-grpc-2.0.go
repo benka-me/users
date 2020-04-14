@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/benka-me/laruche/go-pkg/discover"
 	"github.com/benka-me/users/go-pkg/config"
+	"github.com/benka-me/users/go-pkg/db"
 	"github.com/benka-me/users/go-pkg/users"
 	"go.mongodb.org/mongo-driver/mongo"
 	"google.golang.org/grpc"
@@ -34,10 +35,12 @@ func Server_2_0(engine discover.Engine) {
 		log.Fatal(err)
 	}
 	app := &App{
-		Clients: InitClients(engine, grpc.WithInsecure()), // Init clients of dependencies services
-		Engine:  &engine,
-		Config:  config.Init(engine.Dev),
+		Clients:      InitClients(engine, grpc.WithInsecure()), // Init clients of dependencies services
+		Engine:       &engine,
+		Config:       config.Init(engine.Dev),
+		RegisterChan: make(chan *users.RegisterReq, 3000),
 	}
+	app.MongoUsers, app.MongoClient = db.Init(app.Config)
 
 	grpcServer = grpc.NewServer()
 	lis, err := net.Listen("tcp", port)
@@ -50,6 +53,7 @@ func Server_2_0(engine discover.Engine) {
 		reflection.Register(grpcServer)
 	}
 
+	go app.insertRegisterProcess()
 	fmt.Println("benka-me/users service running on port", port)
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
