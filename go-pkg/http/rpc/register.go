@@ -45,7 +45,7 @@ func (app *App) usernameAvailable(ctx context.Context, req *users.RegisterReq) b
 	return nil != app.MongoUsers.FindOne(context.TODO(), filter).Err()
 }
 func (app *App) emailAvailable(ctx context.Context, req *users.RegisterReq) bool {
-	filter := bson.D{{"data.email", req.Username}}
+	filter := bson.D{{"data.email", req.Email}}
 	return nil != app.MongoUsers.FindOne(context.TODO(), filter).Err()
 }
 
