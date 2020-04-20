@@ -24,7 +24,7 @@ func (app *App) insertRegisterProcess() {
 			Password: pwd,
 		}
 
-		if app.available(context.TODO(), r) {
+		if app.usernameAvailable(context.TODO(), r) {
 			inserted, err := app.MongoUsers.InsertOne(context.TODO(), entry)
 			if err != nil {
 				fmt.Println(err)
@@ -40,20 +40,21 @@ func (app *App) insertRegisterProcess() {
 	}
 }
 
-func (app *App) available(ctx context.Context, req *users.RegisterReq) bool {
-	filter := bson.D{
-		{"$or", bson.A{
-			bson.D{{"data.username", req.Username}},
-			bson.D{{"data.email", req.Email}},
-		}},
-	}
-
+func (app *App) usernameAvailable(ctx context.Context, req *users.RegisterReq) bool {
+	filter := bson.D{{"data.username", req.Username}}
+	return nil != app.MongoUsers.FindOne(context.TODO(), filter).Err()
+}
+func (app *App) emailAvailable(ctx context.Context, req *users.RegisterReq) bool {
+	filter := bson.D{{"data.email", req.Username}}
 	return nil != app.MongoUsers.FindOne(context.TODO(), filter).Err()
 }
 
 func (app *App) Register(ctx context.Context, req *users.RegisterReq) (*users.RegisterRes, error) {
-	if !app.available(ctx, req) {
-		return &users.RegisterRes{}, status.Error(codes.AlreadyExists, "username already exist")
+	if !app.usernameAvailable(ctx, req) {
+		return &users.RegisterRes{}, status.Error(codes.AlreadyExists, "username already used")
+	}
+	if !app.emailAvailable(ctx, req) {
+		return &users.RegisterRes{}, status.Error(codes.AlreadyExists, "email already used")
 	}
 	//TODO validate pwd / email / username
 
