@@ -1,11 +1,20 @@
 version: '3.1'
+#users bee
 
 services:
-  mongo:
+  db:
     image: mongo
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
-      - ${DB_PORT_DEV}:27017
+      - ${DB_PORT_PROD}:27017
+
+  app:
+    network_mode: host
+    image: golang
+    volumes:
+      - ${GOPATH}/src:/go/src
+      - ${HOME}/laruche:/root/laruche
+    command: go run ${APP_REPO} ${HIVE}

@@ -4,7 +4,7 @@ pkgnamecamel: Users
 repo: github.com/benka-me/users
 author: benka-me
 port: 8022
-public: false
+public: true
 license: ""
 description: ""
 keywords: ""
