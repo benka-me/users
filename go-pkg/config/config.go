@@ -26,16 +26,16 @@ func Init(dev bool) *Config {
 		panic(err)
 	}
 	ret := &Config{
-		DbUser: os.Getenv("DB_USER"),
-		DbPWD:  os.Getenv("DB_PASSWORD"),
-		DbSSL:  os.Getenv("DB_SSLMODE"),
+		DbUser: os.Getenv("USERS_DB_USER"),
+		DbPWD:  os.Getenv("USERS_DB_PASSWORD"),
+		DbSSL:  os.Getenv("USERS_DB_SSLMODE"),
 	}
 	if !dev {
-		ret.DbHost = os.Getenv("DB_HOST_PROD")
-		ret.DbPort = os.Getenv("DB_PORT_PROD")
+		ret.DbHost = os.Getenv("USERS_DB_HOST_PROD")
+		ret.DbPort = os.Getenv("USERS_DB_PORT_PROD")
 	} else {
-		ret.DbHost = os.Getenv("DB_HOST_DEV")
-		ret.DbPort = os.Getenv("DB_PORT_DEV")
+		ret.DbHost = os.Getenv("USERS_DB_HOST_DEV")
+		ret.DbPort = os.Getenv("USERS_DB_PORT_DEV")
 	}
 	return ret
 }
