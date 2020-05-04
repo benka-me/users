@@ -5,9 +5,9 @@ repo: github.com/benka-me/users
 author: benka-me
 port: 8022
 public: true
-license: ""
-description: ""
-keywords: ""
+license: MIT
+description: Users data storage and authentication service
+keywords: users auth
 tag: ""
 devlang: 0
 languages:
@@ -26,4 +26,5 @@ protosetup:
 isgateway: false
 deps: []
 cons:
-  - benka-me/laruche-hive
+- benka-me/laruche-hive
+- benka-me/tuto
